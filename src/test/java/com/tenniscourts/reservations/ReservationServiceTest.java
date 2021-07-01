@@ -33,4 +33,17 @@ public class ReservationServiceTest {
 
         Assert.assertEquals(reservationService.getRefundValue(Reservation.builder().schedule(schedule).value(new BigDecimal(10L)).build()), new BigDecimal(10));
     }
+
+    public void ValidateBooking() {
+
+        long Guestid = 2L;
+        long ScheduleId =1L;
+
+        CreateReservationRequestDTO reservationRequest = new CreateReservationRequestDTO();
+        reservationRequest.setGuestId(Guestid);
+        reservationRequest.setScheduleId(ScheduleId);
+
+        ReservationDTO newReservation = reservationService.bookReservation(reservationRequest);
+        
+    }
 }

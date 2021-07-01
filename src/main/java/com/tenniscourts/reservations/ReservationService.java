@@ -1,6 +1,10 @@
 package com.tenniscourts.reservations;
 
 import com.tenniscourts.exceptions.EntityNotFoundException;
+import com.tenniscourts.guests.Guest;
+import com.tenniscourts.schedules.Schedule;
+import com.tenniscourts.schedules.ScheduleDTO;
+import com.tenniscourts.schedules.ScheduleService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +17,23 @@ import java.time.temporal.ChronoUnit;
 public class ReservationService {
 
     private final ReservationRepository reservationRepository;
-
     private final ReservationMapper reservationMapper;
 
     public ReservationDTO bookReservation(CreateReservationRequestDTO createReservationRequestDTO) {
-        throw new UnsupportedOperationException();
+
+        this.validateBooking(createReservationRequestDTO);
+
+        return reservationMapper.map(this.Book(createReservationRequestDTO));
+
+
     }
+    private Reservation Book(CreateReservationRequestDTO createReservationRequestDTO)
+    {
+        Reservation reservation = reservationMapper.map(createReservationRequestDTO);
+        reservation.setValue(BigDecimal.TEN);
+        return reservationRepository.save(reservation);
+      }
+
 
     public ReservationDTO findReservation(Long reservationId) {
         return reservationRepository.findById(reservationId).map(reservationMapper::map).orElseThrow(() -> {
@@ -58,6 +73,16 @@ public class ReservationService {
 
         if (reservation.getSchedule().getStartDateTime().isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("Can cancel/reschedule only future dates.");
+        }
+    }
+
+    private void validateBooking(CreateReservationRequestDTO createReservationRequestDTO) {
+        if ( createReservationRequestDTO.getGuestId() == null ) {
+            throw new IllegalArgumentException("Invalid booking as Guest Id is Null");
+        }
+
+        if (createReservationRequestDTO.getGuestId() == null) {
+            throw new IllegalArgumentException("Invalid booking as Guest Id is Null");
         }
     }
 
