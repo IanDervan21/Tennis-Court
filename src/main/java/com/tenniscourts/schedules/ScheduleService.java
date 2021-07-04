@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
 @Service
 @AllArgsConstructor
 public class ScheduleService {
@@ -20,10 +21,7 @@ public class ScheduleService {
 
     public ScheduleDTO addSchedule(Long tennisCourtId, CreateScheduleRequestDTO createScheduleRequestDTO) {
 
-
-        return null;
-      // scheduleRepository.saveAndFlush(scheduleMapper.map( ));
-
+        return scheduleMapper.map(scheduleRepository.saveAndFlush(scheduleMapper.map(createScheduleRequestDTO)));
     }
 
 
