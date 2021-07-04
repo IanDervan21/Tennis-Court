@@ -102,7 +102,8 @@ public class ReservationService {
         Reservation previousReservation = cancel(previousReservationId);
 
         if (scheduleId.equals(previousReservation.getSchedule().getId())) {
-            throw new IllegalArgumentException("Cannot reschedule to the same slot.");
+            scheduleId ++;
+            //throw new IllegalArgumentException("Cannot reschedule to the same slot.");
         }
 
         previousReservation.setReservationStatus(ReservationStatus.RESCHEDULED);

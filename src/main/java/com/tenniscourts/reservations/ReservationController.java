@@ -29,7 +29,7 @@ public class ReservationController extends BaseRestController {
         return ResponseEntity.ok(reservationService.cancelReservation(reservationId));
     }
 
-
+    @RequestMapping(value = "/reschedule", method = RequestMethod.GET)
     public ResponseEntity<ReservationDTO> rescheduleReservation(Long reservationId, Long scheduleId) {
         return ResponseEntity.ok(reservationService.rescheduleReservation(reservationId, scheduleId));
     }
